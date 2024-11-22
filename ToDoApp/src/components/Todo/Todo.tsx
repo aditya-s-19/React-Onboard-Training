@@ -9,7 +9,7 @@ import { FaCloudSun } from "react-icons/fa";
 const Todo = () => {
   const { tasks } = useContext(tasksContext);
   const [showTasks, setShowTasks] = useState<Task[]>(tasks);
-  const [selectBy, setSelectBy] = useState<string>("All");
+  const [selectBy, setSelectBy] = useState<string>("All Tasks");
   const [sortBy, setSortBy] = useState<string>("Due Closest");
   const selectValues = ["All Tasks", "Done", "Not Done"];
   const sortValues = ["Due Closest", "Due Farthest"];
@@ -49,7 +49,9 @@ const Todo = () => {
           id=""
         >
           {selectValues.map((value) => (
-            <option value={value}>{value}</option>
+            <option key={value} value={value}>
+              {value}
+            </option>
           ))}
         </select>
 
@@ -61,7 +63,9 @@ const Todo = () => {
           id=""
         >
           {sortValues.map((value) => (
-            <option value={value}>{value}</option>
+            <option key={value} value={value}>
+              {value}
+            </option>
           ))}
         </select>
 
