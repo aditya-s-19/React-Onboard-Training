@@ -1,0 +1,88 @@
+.popupWrapper {
+  width: 100%;
+  height: 100%;
+  background-color: #aaaaaa88;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #000000;
+  z-index: 10;
+}
+.popupCard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  background-color: #ffffff;
+  color: #003ba9;
+  padding: 20px 20px 40px 20px;
+  border-radius: 40px;
+}
+.popupButton {
+  font-size: 25px;
+  padding: 10px 30px;
+  border: 4px solid transparent;
+  background-color: #003ba9;
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: bold;
+}
+.popupButton:hover {
+  border: 4px solid #003ba9;
+  background-color: #ffffff;
+  color: #003ba9;
+}
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 40px;
+}
+.editCard {
+  width: 60%;
+}
+.editTaskContainer {
+  display: flex;
+  justify-content: center;
+}
+.taskNameInput {
+  font-size: 25px;
+  padding: 5px;
+  width: 80%;
+  margin-bottom: 40px;
+}
+.taskDateInput {
+  font-size: 25px;
+  padding: 5px;
+  width: 190px;
+  margin-bottom: 40px;
+}
+.taskIsDoneCheckbox {
+  height: 38px;
+  width: 38px;
+  margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+  .popupCard {
+    width: 85%;
+    font-size: 12px;
+  }
+  .popupButton {
+    font-size: 20px;
+  }
+  .editTaskContainer {
+    display: block;
+  }
+  .taskNameInput {
+    width: 95%;
+    border: 2px solid #000000;
+  }
+  .taskDateInput {
+    border: 2px solid #000000;
+  }
+  .buttonContainer {
+    padding: 0px;
+  }
+}

@@ -1,0 +1,75 @@
+.taskContainer {
+  width: 90%;
+  border-bottom: 3px solid #ffffff;
+  margin: auto;
+  display: flex;
+}
+.pastDue {
+  border-bottom: 3px solid #ff0000;
+}
+.checkbox {
+  width: 25px;
+}
+.slashed {
+  text-decoration: line-through;
+}
+.taskName {
+  font-family: monospace;
+  padding-left: 10px;
+  font-size: 22px;
+  margin: 10px 0px 5px 0px;
+}
+.taskDueDate {
+  font-size: 22px;
+  margin: 10px 10px 5px auto;
+}
+.taskButton {
+  padding-top: 5px;
+  margin-right: 10px;
+  background-color: transparent;
+  border: none;
+}
+.taskButton svg {
+  color: #ffffff;
+}
+.taskButton:active svg {
+  color: #003ba9;
+}
+
+@media (max-width: 768px) {
+  .taskContainer {
+    display: block;
+    height: 85px;
+  }
+  .taskName {
+    display: inline-block;
+    width: 87%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    height: 23px;
+    text-overflow: ellipsis;
+    text-align: left;
+    margin-bottom: 0;
+  }
+  .taskName:hover {
+    text-overflow: unset;
+  }
+  .taskName:hover .slashed {
+    text-decoration: dashed;
+  }
+  .taskDueDate {
+    width: max-content;
+    margin: 0px 50px 20px 0px;
+    display: inline-block;
+  }
+  .taskButton {
+    padding: 0px;
+    height: 0px;
+    display: inline-block;
+  }
+  .checkbox {
+    width: 22px;
+    height: 22px;
+    padding-bottom: 10px;
+  }
+}
