@@ -1,18 +1,19 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Popup from "../Popup/Popup";
 import { Task } from "../../Types/Tasks";
 import styles from "./singleTask.module.css";
-import { tasksContext } from "../../App";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { isPastDate } from "../../utility/task";
+import { useDispatch } from "react-redux";
+import { removeTask, toggleTaskIsDone } from "../../features/tasks";
 
 type Props = {
   task: Task;
 };
 
 const SingleTask = ({ task }: Props) => {
-  const { removeTask, toggleTaskIsDone } = useContext(tasksContext);
+  const dispatch = useDispatch();
   const [isDelete, setIsDelete] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [isHoverOverName, setIsHoverOverName] = useState<boolean>(false);
@@ -31,7 +32,7 @@ const SingleTask = ({ task }: Props) => {
         type="checkbox"
         id="checkIsDone"
         checked={task.isDone}
-        onChange={() => toggleTaskIsDone(task)}
+        onChange={() => dispatch(toggleTaskIsDone(task))}
       />
       <p
         className={
@@ -52,7 +53,9 @@ const SingleTask = ({ task }: Props) => {
         <FaRegTrashAlt size={30} />
       </button>
 
-      {isDelete && <Popup type="delete" deleteFn={() => removeTask(task)} cancelFn={() => setIsDelete(false)}></Popup>}
+      {isDelete && (
+        <Popup type="delete" deleteFn={() => dispatch(removeTask(task))} cancelFn={() => setIsDelete(false)}></Popup>
+      )}
       {isEdit && (
         <Popup type="edit" task={task} onEditFinish={() => setIsEdit(false)} cancelFn={() => setIsEdit(false)} />
       )}

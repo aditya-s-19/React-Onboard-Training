@@ -1,13 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import NewTask from "../NewTask/NewTask";
 import TaskList from "../TaskList/TaskList";
 import styles from "./todo.module.css";
-import { tasksContext } from "../../App";
 import { Task } from "../../Types/Tasks";
 import { FaCloudSun } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { getTasksFromLocalStorage } from "../../features/tasks";
 
 const Todo = () => {
-  const { tasks } = useContext(tasksContext);
+  const tasks: Task[] = useSelector((state: RootState) => state.tasks.value);
+  const dispatch = useDispatch();
   const [showTasks, setShowTasks] = useState<Task[]>(tasks);
   const [selectBy, setSelectBy] = useState<string>("All Tasks");
   const [sortBy, setSortBy] = useState<string>("Due Closest");
@@ -28,6 +31,10 @@ const Todo = () => {
 
     setShowTasks(selectedTasks);
   };
+
+  useEffect(() => {
+    dispatch(getTasksFromLocalStorage());
+  }, []);
 
   useEffect(() => {
     updateShowTasks();

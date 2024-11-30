@@ -5,10 +5,14 @@ export type Task = {
   dueDate: string;
 };
 
-export type TasksContext ={
-  tasks:Task[],
-  addTask:(newTask:Task)=>void,
-  removeTask:(removedTask:Task)=>void,
-  updateTask:(updatedTask:Task)=>void,
-  toggleTaskIsDone:(toggleTask:Task)=>void
-}
+export type TasksContext = {
+  tasks: Task[];
+  addTask: (newTask: Task) => void;
+  removeTask: (removedTask: Task) => void;
+  updateTask: (updatedTask: Task) => void;
+  toggleTaskIsDone: (toggleTask: Task) => void;
+};
+
+export type TasksState = {
+  value: Task[];
+};

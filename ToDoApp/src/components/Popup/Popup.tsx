@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Task } from "../../Types/Tasks";
 import styles from "./popup.module.css";
-import { tasksContext } from "../../App";
 import { getDate, isEmptyDate, isPastDate, isValidName, warning } from "../../utility/task";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { updateTask } from "../../features/tasks";
 
 type Props = {
   type: "edit" | "delete";
@@ -14,11 +15,11 @@ type Props = {
 };
 
 function Popup({ type, deleteFn, onEditFinish, task, cancelFn }: Props) {
+  const dispatch = useDispatch();
   const [name, setName] = useState<string>(task ? task.name : "");
   const [isDone, setIsDone] = useState<boolean>(task ? task.isDone : false);
   const [dueDate, setDueDate] = useState<string>(task ? task.dueDate : "");
   const originalDate: string = task ? task.dueDate : "";
-  const { updateTask } = useContext(tasksContext);
 
   const editTask = (): void => {
     if (dueDate === originalDate || (!isEmptyDate(dueDate) && !isPastDate(dueDate))) {
@@ -29,7 +30,7 @@ function Popup({ type, deleteFn, onEditFinish, task, cancelFn }: Props) {
           dueDate,
           isDone,
         };
-        updateTask(editedTask);
+        dispatch(updateTask(editedTask));
         onEditFinish();
       }
     } else {

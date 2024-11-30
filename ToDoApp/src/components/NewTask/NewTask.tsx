@@ -1,23 +1,26 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "./newTask.module.css";
-import { tasksContext } from "../../App";
 import { v4 as uuid } from "uuid";
 import { getDate, isEmptyDate, isPastDate, isValidName, warning } from "../../utility/task";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { addTask } from "../../features/tasks";
 
 function NewTask() {
-  const { addTask } = useContext(tasksContext);
+  const dispatch = useDispatch();
   const [name, setName] = useState<string>("");
   const [date, setDate] = useState<string>(getDate());
 
   const handleNewTask = (): void => {
     if (isValidName(name) && !isEmptyDate(date) && !isPastDate(date)) {
-      addTask({
-        id: uuid(),
-        name: name.trim(),
-        isDone: false,
-        dueDate: date,
-      });
+      dispatch(
+        addTask({
+          id: uuid(),
+          name: name.trim(),
+          isDone: false,
+          dueDate: date,
+        })
+      );
       setName("");
     } else {
       isPastDate(date) && toast.error(warning.datePast);

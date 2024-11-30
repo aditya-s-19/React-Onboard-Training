@@ -33,3 +33,5 @@ export const isPastDate = (date: string): boolean => {
   const givenDateString = new Date(getDate(date)).getTime();
   return givenDateString < today;
 };
+
+export const localTasksKey = "tasks";
