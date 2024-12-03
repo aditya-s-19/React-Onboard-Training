@@ -3,7 +3,7 @@ import { RootState } from "../../store";
 import { useEffect, useState } from "react";
 import { AgCharts } from "ag-charts-react";
 
-const PieChart = () => {
+const BarChart = () => {
   const products = useSelector((state: RootState) => state.products.value);
 
   const [chartOptions, setChartOptions] = useState<{
@@ -14,26 +14,18 @@ const PieChart = () => {
     data: [],
     series: [
       {
-        type: "pie",
-        angleKey: "totalPrice", // Determines the slice size
-        labelKey: "category", // Labels each slice with the category name
-        calloutLabelKey: "category", // Displays category names as callout labels
-        calloutLabel: {
-          enabled: true,
-          fontSize: 14,
-          fontWeight: "bold",
-          color: "black",
-        },
-        innerRadius: 0, // Ensure a full pie chart (not a donut chart)
+        type: "bar", // Define the chart type as 'bar'
+        xKey: "category", // xKey represents categories on the X-axis
+        yKey: "totalPrice", // yKey represents the numerical values on the Y-axis
+        yName: "Total Price", // Human-readable label for Y values in tooltip and legend
+        grouped: true, // Group bars side-by-side for different series (if applicable)
       },
     ],
-    legend: {
-      enabled: true,
-      position: "bottom", // Display the legend at the bottom
-    },
   });
 
   useEffect(() => {
+    if (products.length === 0) return; // Return early if no products are available
+
     // Aggregate product data by category
     const categoryData = Object.values(
       products.reduce((acc, product) => {
@@ -45,13 +37,19 @@ const PieChart = () => {
       }, {} as Record<string, { category: string; totalPrice: number }>)
     );
 
+    // Log the aggregated data to check if it's correct
+    console.log("Aggregated Category Data:", categoryData);
+
     // Sort data from largest to smallest totalPrice
     const sortedData = categoryData.sort((a, b) => b.totalPrice - a.totalPrice);
 
-    // Update chart options with the sorted data
+    // Log the sorted data
+    console.log("Sorted Data:", sortedData);
+
+    // Update the chart options with the sorted data
     setChartOptions((prev) => ({
       ...prev,
-      data: sortedData,
+      data: sortedData, // Provide the aggregated and sorted data to the chart
     }));
   }, [products]);
 
@@ -62,4 +60,4 @@ const PieChart = () => {
   );
 };
 
-export default PieChart;
+export default BarChart;

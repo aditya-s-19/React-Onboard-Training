@@ -3,7 +3,7 @@ import Table from "./components/table/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "./features/products";
 import { AppDispatch, RootState } from "./store";
-import PieChart from "./components/pieChart/PieChart";
+import BarChart from "./components/barChart/BarChart";
 
 const App = () => {
   const isLoading = useSelector((state: RootState) => state.products.isLoading);
@@ -60,7 +60,7 @@ const App = () => {
         </div>
       ) : (
         <>
-          <PieChart />
+          <BarChart />
           <Table />
         </>
       )}
