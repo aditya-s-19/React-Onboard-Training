@@ -50,32 +50,41 @@ const Table = () => {
   };
 
   const onCellValueChanged = async (params: NewValueParams<Product, any>) => {
-    const { oldValue, newValue, data, colDef } = params;
+    const { oldValue, newValue, data, colDef, node } = params;
 
     if (oldValue === newValue) return;
 
-    // Update localProducts state
-    let updatedProduct: any | undefined = localProducts.find((prod) => prod.id === data.id);
-    if (updatedProduct) {
-      updatedProduct[colDef.field!] = newValue;
-      const updatedProducts = localProducts.map((prod) =>
-        prod.id === updatedProduct.id ? { ...updatedProduct } : { ...prod }
-      );
-      setLocalProducts(updatedProducts);
-      try {
-        await dispatch(updateProductWithAPI(updatedProduct));
-      } catch (error) {
-        console.error("Failed to update product:", error);
+    // Validation for number fields (e.g., price, quantity)
+    if (["price", "quantity"].includes(colDef.field!)) {
+      const numericValue = Number(newValue);
+      if (isNaN(numericValue) || numericValue < 0) {
+        alert(`Invalid value for ${colDef.field}. It must be a non-negative number.`);
+        node && node.setDataValue(colDef.field!, oldValue); // Revert to the old value
+        return;
       }
     }
 
-    // Persist changes to the backend
-  };
+    // Validation for string fields (e.g., name, category)
+    if (["name", "category"].includes(colDef.field!)) {
+      if (!newValue || newValue.trim() === "") {
+        alert(`Invalid value for ${colDef.field}. It cannot be empty.`);
+        node && node.setDataValue(colDef.field!, oldValue); // Revert to the old value
+        return;
+      }
+    }
 
-  const onCellKeyDown = (event: any) => {
-    console.log("onCellKeyDown called");
-    if (event.event.key === "Enter" || event.event.key === "Tab") {
-      event.api.stopEditing(); // Stop editing explicitly
+    // Update localProducts state
+    const updatedProduct = { ...data, [colDef.field!]: newValue };
+    const updatedProducts = localProducts.map((prod) => (prod.id === updatedProduct.id ? updatedProduct : prod));
+    setLocalProducts(updatedProducts);
+
+    // Persist changes to the backend
+    try {
+      await dispatch(updateProductWithAPI(updatedProduct));
+    } catch (error) {
+      console.error("Failed to update product:", error);
+      alert("Failed to save changes. Reverting...");
+      node && node.setDataValue(colDef.field!, oldValue); // Revert on failure
     }
   };
 
@@ -90,7 +99,6 @@ const Table = () => {
         columnDefs={colDefs}
         onCellValueChanged={onCellValueChanged}
         stopEditingWhenCellsLoseFocus={true} // Ensure editing stops on focus loss
-        onCellKeyDown={onCellKeyDown} // Handle Enter/Tab manually if needed
         animateRows={true} // Smooth transitions during sorting or editing
         defaultColDef={{
           sortable: true,
