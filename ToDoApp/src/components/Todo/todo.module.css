@@ -1,0 +1,28 @@
+.todo {
+  font-size: 20px;
+  font-family: sans-serif;
+}
+.heading {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  font-size: 25px;
+  font-family: "Courier New", Courier, monospace;
+}
+.showOptions {
+  font-size: 20px;
+  padding: 5px;
+  border-radius: 15px;
+  background-color: #003ba9;
+  color: #ffffff;
+  border: 3px solid #ffffff;
+  outline: none;
+}
+.selectBy {
+  margin-right: 10px;
+}
+@media (max-width: 768px) {
+  select option {
+    font-size: 20px !important;
+  }
+}
