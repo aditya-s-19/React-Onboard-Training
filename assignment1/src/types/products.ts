@@ -1,6 +1,3 @@
-import { ThunkAction } from "@reduxjs/toolkit";
-import { RootState } from "../store";
-
 export type Product = {
   id: number;
   name: string;
@@ -9,4 +6,4 @@ export type Product = {
   quantity: number;
 };
 
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, any>;
+export type BarChartData = { category: string; totalPrice: number };
